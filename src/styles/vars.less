@@ -1,0 +1,67 @@
+// background-color
+@head-bg: #fdfdfd;
+@cardBg: #fff;
+@main-bg: #f4f4f4;
+@groupListBg: rgb(181, 205, 253);
+@empListBg: rgba(201, 219, 249, 0.62);
+//  尺寸变量
+@treeAside: 200px;
+
+@card-style: card-style;
+.@{card-style} {
+  border-radius: 8px;
+  background-color: @cardBg;
+  padding: 15px;
+}
+// 两栏布局 flex
+@stableAsideWrap: stableAsideWrap;
+.@{stableAsideWrap} {
+  position: absolute;
+  top: 140px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  justify-content: space-between;
+}
+// aside
+@aside: aside-main;
+.@{aside} {
+  width: @treeAside;
+  margin-right: 20px;
+  .card-style;
+}
+// main
+@main: main-main;
+.@{main} {
+  flex: 1;
+  .card-style;
+}
+@main-map: main-map;
+.@{main-map} {
+  flex: 1;
+  background-color: @cardBg;
+}
+// 自定义btn样式
+// @btn-zhx: btn-zhx;
+// .@{btn-zhx} {
+//   display: inline-block;
+//   white-space: nowrap;
+//   cursor: pointer;
+//   background-color: #fff;
+//   color: #606266;
+//   border: 1px solid #dcdfe6;
+//   box-sizing: border-box;
+//   outline: 0;
+//   padding: 2px 4px;
+//   transition: 0.1s;
+//   font-size: 14px;
+//   border-radius: 4px;
+// }
+// .@{btn-zhx}:hover {
+//   background-color: #ecf5ff;
+//   color: #859eff;
+//   border: 1px solid #c6e2ff;
+// }

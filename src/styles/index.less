@@ -1,0 +1,56 @@
+@import "./vars.less";
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-width: 800px;
+  margin: 0;
+}
+// tab 样式
+.el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+  border-bottom-color: @main-bg;
+}
+// 地图容器
+.map-container {
+  width: 100%;
+  height: 100%;
+}
+
+// realtimeCommand infoWindow btn样式  -------------------start
+.btn-zhx {
+  display: inline-block;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: #fff;
+  color: #606266;
+  border: 1px solid #dcdfe6;
+  box-sizing: border-box;
+  outline: 0;
+  padding: 2px 4px;
+  transition: 0.1s;
+  font-size: 14px;
+  border-radius: 4px;
+}
+.btn-success {
+  color: #67c23a;
+  background: #f0f9eb;
+  border-color: #c2e7b0;
+}
+.btn-success:hover,
+.btn-success:focus {
+  background: #67c23a;
+  border-color: #67c23a;
+  color: #fff;
+}
+.btn-danger {
+  color: #f56c6c;
+  background: #fef0f0;
+  border-color: #fbc4c4;
+}
+.btn-danger:hover,
+.btn-danger:focus {
+  background: #f56c6c;
+  border-color: #f56c6c;
+  color: #fff;
+}
+// realtimeCommand infoWindow btn样式----------------------------end
