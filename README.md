@@ -38,6 +38,6 @@ npm test
 9. 在git bash,git remote add origin git@github.com:HannieJoe/fourth-geneartion.git
 10. 在git bash,git push -u origin master
 
-hello world
+
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
