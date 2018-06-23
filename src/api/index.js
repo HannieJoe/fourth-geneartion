@@ -63,3 +63,25 @@ export const addEmpGroup = params => {
 export const editEmpGroup = params => {
     return Promise.$promise("d_employee_group/dataUpdate", params);
 };
+// 删除警员组
+export const delEmpGroup = params => {
+    return Promise.$promise("d_employee_group/dataDelete", params);
+};
+// 删除警员组成员
+export const delGroupEmp = params => {
+    return Promise.$promise("d_employee_group/bindDelete", params);
+};
+// 一键清除已过期
+export const delExpire = params => {
+    return Promise.$promise("d_employee_group/expireDelete", params);
+};
+
+/* ==================================对讲频道==================================== */
+// 获取频道列表
+export const getIntercomList = params => {
+    return Promise.$promise("d_voice_room/dataList", params);
+};
+// 获取频道警员
+export const getIntercomEmps = params => {
+    return Promise.$promise("d_voice_room_relevance/getListByRoomId", params);
+};

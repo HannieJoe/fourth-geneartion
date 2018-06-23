@@ -14,7 +14,7 @@
                         <el-table-column prop="opt" label="操作">
                             <template slot-scope="scope">
                                 <el-button class="tinyBtn" plain type="primary" size="mini" @click="editGroup(scope.row)">编辑</el-button>
-                                <el-button class="tinyBtn" plain type="danger" size="mini" @click="delGroup">删除</el-button>
+                                <el-button class="tinyBtn" plain type="danger" size="mini" @click="delGroup(scope.row)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -28,7 +28,7 @@
                         <el-table-column prop="opt" label="操作">
                             <template slot-scope="scope">
                                 <el-button class="tinyBtn" plain type="primary" size="mini" @click.stop="editGroup(scope.row)">编辑</el-button>
-                                <el-button class="tinyBtn" plain type="danger" size="mini" @click="delGroup">删除</el-button>
+                                <el-button class="tinyBtn" plain type="danger" size="mini" @click="delGroup(scope.row)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -45,7 +45,7 @@
                 <el-table-column prop="cpxh" label="设备编号"></el-table-column>
                 <el-table-column prop="opt" label="操作">
                     <template slot-scope="scope">
-                        <el-button class="tinyBtn" plain type="danger" size="mini" @click="delEmp">删除</el-button>
+                        <el-button class="tinyBtn" plain type="danger" size="mini" @click="delEmp(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -125,7 +125,7 @@
 </template>
 <script>
 // 获取所有警员组
-import { getEmployeeGroup, getEmployees, getAllEmployees, addEmpGroup, editEmpGroup } from '@/api';
+import { getEmployeeGroup, getEmployees, getAllEmployees, addEmpGroup, editEmpGroup, delEmpGroup, delGroupEmp, delExpire } from '@/api';
 export default {
     data() {
         return {
@@ -227,7 +227,15 @@ export default {
             this.form.groupType = 0;
         },
         // 一键清除已过期
-        delExpire() { },
+        delExpire() {
+            delExpire().then(res => {
+                if (res.status) {
+                    this.$message({ message: res.message, type: 'success' });
+                } else {
+                    this.$message({ message: res.message, type: 'error' });
+                }
+            });
+        },
         // 编辑警员组
         editGroup(row) {
             // 弹出dialog,row 的数据
@@ -272,9 +280,27 @@ export default {
             }
         },
         // 删除警员组
-        delGroup() { },
+        delGroup(row) {
+            console.log(row);
+            delEmpGroup({ id: row.id }).then(res => {
+                if (res.status) {
+                    this._getEmployeeGroup({ type: this.optGroup.type, page: 1, rows: 20 });
+                } else {
+                    this.$message({ message: res.message, type: 'error' });
+                }
+            });
+        },
         // 删除警员组中警员
-        delEmp() { },
+        delEmp(row) {
+            delGroupEmp({ group_id: this.optGroup.id, employee_id: row.id }).then(res => {
+                if (res.status) {
+                    // 获取警员组警员
+                    this._getEmployees({ page: 1, rows: 999, id: this.optGroup.id });
+                } else {
+                    this.$message({ message: res.message, type: 'error' });
+                }
+            });
+        },
         // 警员组行点击事件
         rowClick(row) {
             this.optGroup = row;
@@ -307,24 +333,27 @@ export default {
                 ids.push(this.selEmps[i].id);
             }
             d.ids = ids.join(',');
-            d.groupName = this.form.groupName;
-            d.groupType = this.form.groupType;
+            d.name = this.form.groupName;
+            d.type = this.form.groupType;
             let submitEmpGroup = null;
             if (this.dialogTitle == '新增') {
                 submitEmpGroup = addEmpGroup;
                 if (this.form.groupType == 1) {
-                    d = Object.assign(d, { is_expire: this.form.is_expire });
+                    d = Object.assign(d, { expire_time: this.form.is_expire });
                 }
             } else {
                 submitEmpGroup = editEmpGroup
                 if (this.form.groupType == 1) {
                     d = Object.assign(d, { expire_time: this.form.expire_time });
                 }
+                //巡逻组id
+                d.id = this.optGroup.id;
             }
             submitEmpGroup(d).then(res => {
+                this.dialogVisible = false;
                 if (res.status) {
                     this.$message({ message: res.message, type: 'success' });
-                    this._getEmployeeGroup({ type: d.groupType, page: 1, rows: 20 });
+                    this._getEmployeeGroup({ type: d.type, page: 1, rows: 20 });
                 } else {
                     this.$message({ message: res.message, type: 'error' });
                 }

@@ -13,7 +13,7 @@ module.exports = {
       //proxy all requests starting with /api to http://192.168.0.252
       // http://192.168.0.252/4G/public/index.php/index/d_member/login
       "/api": {
-        target: "http://192.168.0.252/4G/public/index.php/index",
+        target: "http://localhost/4G/public/index.php/index",
         // target: "https://221.181.209.245:7443/4G/public/index.php/index",
         changeOrigin: true,
         pathRewrite: {
