@@ -41,6 +41,58 @@
                 </el-table>
             </div>
         </div>
+        <!-- 弹窗 -->
+        <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width='80%' id="channelDlg">
+            <div class="channelDlgBody">
+                <el-row>
+                    <el-col :span="24">
+                        <el-form :model="form" :inline="true">
+                            <el-form-item label="频道名称">
+                                <el-input v-model="form.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="频道类型">
+                                <el-input v-model="form.type_id"></el-input>
+                            </el-form-item>
+                            <el-form-item label="频道密码" v-if="form.type_id==2">
+                                <el-input v-model="form.password"></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                </el-row>
+                <el-row v-if="form.type_id==1">
+                    <el-col :span="12">
+                        <div class="title"> 所有警员 </div>
+                        <el-table :data='allEmps' style="width:100%" height="500">
+                            <el-table-column type="index"></el-table-column>
+                            <el-table-column prop="jyxm" label="警员姓名"></el-table-column>
+                            <el-table-column prop="jybh" label="警员编号"></el-table-column>
+                            <el-table-column prop="opt" label="操作">
+                                <template slot-scope='scope'>
+                                    <el-button size="mini" type="success">添加</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                    <el-col :span="12">
+                        <div class="title"> 已选警员 </div>
+                        <el-table :data='selEmps' style="width:100%" height="500">
+                            <el-table-column type="index"></el-table-column>
+                            <el-table-column prop="jyxm" label="警员姓名"></el-table-column>
+                            <el-table-column prop="jybh" label="警员编号"></el-table-column>
+                            <el-table-column prop="opt" label="操作">
+                                <template slot-scope='scope'>
+                                    <el-button size="mini" type="danger">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                </el-row>
+            </div>
+            <div slot="footer">
+                <el-button @click="dialogVisible=false">取消</el-button>
+                <el-button type="primary" @click="dlgOk">确定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -56,8 +108,16 @@ export default {
             },
             optChannel: null,
             channelTitle: '',
-            channelEmps: [
-            ],
+            channelEmps: [],
+            dialogTitle: '',
+            dialogVisible: false,
+            form: {
+                name: '',
+                type_id: 1,
+                password: ''
+            },
+            allEmps: [],
+            selEmps: [],
         }
     },
     methods: {
@@ -88,7 +148,10 @@ export default {
             });
         },
         // 新增频道
-        addChannel() { },
+        addChannel() {
+            this.dialogVisible = true;
+            this.dialogTitle = '新增';
+        },
         rowClick(row) {
             console.log(row);
             this.optChannel = row;
@@ -97,6 +160,9 @@ export default {
         },
         pageCurrent(page) {
             this._getIntercomList({ page: page, rows: this.channelPage.size });
+        },
+        dlgOk() {
+            console.log(this.form);
         },
     },
     created() {
@@ -140,4 +206,31 @@ export default {
     background-color: #acc;
 }
 </style>
+<style >
+#channelDlg .el-dialog__header {
+    background-color: #f4f4f4;
+}
+
+#channelDlg .el-dialog__body {
+    padding: 0 5px;
+}
+
+.channelDlgBody form {
+    height: 50px;
+    line-height: 50px;
+}
+
+.channelDlgBody .el-form-item__content {
+    vertical-align: middle;
+}
+
+.channelDlgBody .el-input {
+    width: 120px;
+}
+
+#channelDlg .el-dialog__footer {
+    padding: 10px 20px;
+}
+</style>
+
 
