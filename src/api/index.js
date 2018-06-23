@@ -85,3 +85,5 @@ export const getIntercomList = params => {
 export const getIntercomEmps = params => {
     return Promise.$promise("d_voice_room_relevance/getListByRoomId", params);
 };
+// 获取所有警员
+// getAllEmployees
